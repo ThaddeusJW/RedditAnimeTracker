@@ -29,16 +29,16 @@ def getURLs():
     # print(url_list)
     return url_list
 
-# title_list = getTitles()
-# url_list = getURLs()
+title_list = getTitles()
+url_list = getURLs()
 
-# disc_dict = dict(zip(title_list, url_list))
+disc_dict = dict(zip(title_list, url_list))
 
-# print(len(disc_dict.keys()))
+print(len(disc_dict.keys()))
 
-# for k, v in disc_dict.items():
-#     print(f"Title: {k}\nURL: {v}\n")
-#     break
+for k, v in disc_dict.items():
+    print(f"Title: {k}\nURL: {v}\n")
+    break
 
 disc_1 = requests.get('https://www.reddit.com/r/anime/comments/15jsfn1/mushoku_tensei_isekai_ittara_honki_dasu_season_2/')
 soup = BeautifulSoup(disc_1.text, 'html.parser')
