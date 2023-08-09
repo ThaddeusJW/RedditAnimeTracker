@@ -45,21 +45,30 @@ counter = 0
 labels = ['Episode', 'Rating']
 
 for link in url_list:
-        
-    page = requests.get('https://reddit.com'+link, headers=headers)
-    soup = BeautifulSoup(page.text, 'html.parser')
+    
+    if 'Episode' in title_list[counter]:
+        page = requests.get('https://reddit.com'+link, headers=headers)
+        soup = BeautifulSoup(page.text, 'html.parser')
+        temp_url = 'https://reddit.com'+link
+        print(temp_url)
 
-    table = soup.find_all('table')
-    print(f"Info for {title_list[counter][:45]}...:")
-    for tr in table:
-        d = 0
-        for td in tr.find_all('td'):
-            if "Link" in td.text:
-                    pass
-            
-            else:
-                print(labels[d%2], td.text.strip())
-                d += 1
+        table = soup.find_all('table')
+        print(f"Info for {title_list[counter][:45]}...:")
+        for tr in table:
+            d = 0
+            for td in tr.find_all('td'):
+                if "Link" in td.text:
+                        pass
+                
+                else:
+                    print(labels[d%2], td.text.strip())
+                    d += 1
 
-    counter += 1
+        counter += 1
+    
+    else:
+        print("Not an Episode Discussion:", title_list[counter])
+
+        counter += 1
+
 
