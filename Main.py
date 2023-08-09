@@ -3,8 +3,9 @@ import json
 from bs4 import BeautifulSoup
 
 url = 'https://www.reddit.com/r/anime/search/?q=discussion&restrict_sr=1&t=week'
-
-request = requests.get(url)
+headers = {"User-Agent": 
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"}
+request = requests.get(url, headers=headers)
 
 soup = BeautifulSoup(request.text, 'html.parser')
 
@@ -40,12 +41,25 @@ for k, v in disc_dict.items():
     print(f"Title: {k}\nURL: {v}\n")
     break
 
-disc_1 = requests.get('https://www.reddit.com/r/anime/comments/15jsfn1/mushoku_tensei_isekai_ittara_honki_dasu_season_2/')
-soup = BeautifulSoup(disc_1.text, 'html.parser')
+counter = 0
+labels = ['Episode', 'Rating']
 
-table = soup.find_all('table')
+for link in url_list:
+        
+    page = requests.get('https://reddit.com'+link, headers=headers)
+    soup = BeautifulSoup(page.text, 'html.parser')
 
-for tr in table:
-    for td in tr.find_all('td'):
-        print(td.text.strip())
+    table = soup.find_all('table')
+    print(f"Info for {title_list[counter][:45]}...:")
+    for tr in table:
+        d = 0
+        for td in tr.find_all('td'):
+            if "Link" in td.text:
+                    pass
+            
+            else:
+                print(labels[d%2], td.text.strip())
+                d += 1
+
+    counter += 1
 
